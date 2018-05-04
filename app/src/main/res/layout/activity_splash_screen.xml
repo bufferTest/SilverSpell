@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/permanent_marker"
             android:text="@string/splash_title"
+            android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="55sp" />
     </com.facebook.shimmer.ShimmerFrameLayout>
