@@ -51,7 +51,7 @@ public class SplashScreen extends AppCompatActivity {
         runnable = new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(mContext, Dashboard.class);
+                Intent intent = new Intent(mContext, SignInActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 finish();

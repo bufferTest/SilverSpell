@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "266019961754",
+    "firebase_url": "https://silverspell-238b7.firebaseio.com",
+    "project_id": "silverspell-238b7",
+    "storage_bucket": "silverspell-238b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:266019961754:android:fe3c7215a2209320",
+        "android_client_info": {
+          "package_name": "bkh.com.silverspell"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "266019961754-lng3i3bhr4hmg00hmi8berai92541u9e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "bkh.com.silverspell",
+            "certificate_hash": "ece1935542b159f748a00d6821c3866ae043a7ee"
+          }
+        },
+        {
+          "client_id": "266019961754-rmrmfv0qcktf4t81oo6g4q1t17ctq5je.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjQPPm3Cza7StD8nmW-RFbKT--moIJD3k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "266019961754-rmrmfv0qcktf4t81oo6g4q1t17ctq5je.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
