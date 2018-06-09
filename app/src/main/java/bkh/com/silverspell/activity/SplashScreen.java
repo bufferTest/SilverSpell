@@ -1,28 +1,27 @@
 package bkh.com.silverspell.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import bkh.com.silverspell.R;
+import bkh.com.silverspell.utils.AppConstants;
+import bkh.com.silverspell.utils.AppPreference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SplashScreen extends AppCompatActivity {
 
-    private AppCompatActivity mContext;
-
-    private Handler handler;
-    private Runnable runnable;
-
     @BindView(R.id.shimmer_view_container)
     ShimmerFrameLayout container;
-
+    private AppCompatActivity mContext;
+    private Handler handler;
+    private Runnable runnable;
     private Animation animFadein;
 
     @Override
@@ -33,7 +32,7 @@ public class SplashScreen extends AppCompatActivity {
         mContext = SplashScreen.this;
         ButterKnife.bind(mContext);
 
-        animFadein = AnimationUtils.loadAnimation(mContext,R.anim.fade_in);
+        animFadein = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
         container.startAnimation(animFadein);
 
         container.setDuration(1200);
@@ -51,10 +50,19 @@ public class SplashScreen extends AppCompatActivity {
         runnable = new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(mContext, SignInActivity.class);
+                String userid = AppPreference.getInstance().getString(AppConstants.USERID);
+                Intent intent = null;
+                if (userid.trim().length() == 0) {
+                    intent = new Intent(mContext, SignInActivity.class);
+
+                } else {
+                    intent = new Intent(mContext, Dashboard.class);
+                }
+                intent = new Intent(mContext, Dashboard.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 finish();
+
             }
         };
 

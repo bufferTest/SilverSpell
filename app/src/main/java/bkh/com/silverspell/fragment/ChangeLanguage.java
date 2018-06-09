@@ -17,7 +17,7 @@ import java.util.List;
 import bkh.com.silverspell.R;
 import bkh.com.silverspell.adapter.ChangeLanguageAdapter;
 import bkh.com.silverspell.models.Languages;
-import bkh.com.silverspell.utils.AppPref;
+import bkh.com.silverspell.utils.AppPreference;
 import bkh.com.silverspell.utils.CommonUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,8 +73,7 @@ public class ChangeLanguage extends Fragment {
         ChangeLanguageAdapter adapter = new ChangeLanguageAdapter(mContext, languagesList, new ChangeLanguageAdapter.onClickItem() {
             @Override
             public void onClick(String value) {
-                AppPref appPref = new AppPref(mContext);
-                appPref.putString("APP_LANGUAGE",value);
+                AppPreference.getInstance().putString("APP_LANGUAGE",value);
                 CommonUtils.getInstance().setLocale(mContext);
                 getActivity().getSupportFragmentManager().popBackStack();
             }

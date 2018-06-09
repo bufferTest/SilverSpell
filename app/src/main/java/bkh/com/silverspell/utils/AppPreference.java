@@ -3,11 +3,20 @@ package bkh.com.silverspell.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class AppPref {
+import bkh.com.silverspell.R;
+import bkh.com.silverspell.app;
+
+public class AppPreference {
+    private static final AppPreference ourInstance = new AppPreference();
     private SharedPreferences sharedpref;
 
-    public AppPref(Context context) {
-        sharedpref = context.getSharedPreferences("SilverSpell", Context.MODE_PRIVATE);
+    public static AppPreference getInstance() {
+        return ourInstance;
+    }
+
+    private AppPreference() {
+        Context context = app.getAppContext();
+        sharedpref = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE);
     }
 
     public void clearSharedPrefrences() {

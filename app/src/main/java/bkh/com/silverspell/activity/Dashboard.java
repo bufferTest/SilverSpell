@@ -2,9 +2,7 @@ package bkh.com.silverspell.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -14,12 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
 
+import bkh.com.silverspell.Constants;
 import bkh.com.silverspell.R;
 import bkh.com.silverspell.fragment.ChangeLanguage;
-import bkh.com.silverspell.fragment.Menu1;
+import bkh.com.silverspell.fragment.MainFragment;
+import bkh.com.silverspell.views.CustomConfirmDialog;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -32,6 +31,7 @@ public class Dashboard extends AppCompatActivity
     DrawerLayout drawer;
 
     private Fragment fragment = null;
+    private AppCompatActivity mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,30 +39,26 @@ public class Dashboard extends AppCompatActivity
         setContentView(R.layout.activity_dashboard);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ButterKnife.bind(this);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        mContext = Dashboard.this;
+        ButterKnife.bind(mContext);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                mContext, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        fragment = new Menu1();
+        fragment = new MainFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.detail_container, fragment);
-        ft.addToBackStack("def").commit();
+        ft.addToBackStack(Constants.MAINFRAGMENT.name()).commit();
 
+    }
+
+    private int getFragmentCount() {
+        return getSupportFragmentManager().getBackStackEntryCount();
     }
 
     @Override
@@ -70,8 +66,11 @@ public class Dashboard extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            finishAffinity();
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            if (getFragmentCount() > 1) {
+                getSupportFragmentManager().popBackStackImmediate();
+            } else if (getFragmentCount() == 1) {
+                openExitDialog();
+            }
         }
     }
 
@@ -99,19 +98,20 @@ public class Dashboard extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+        switch (id) {
+            case R.id.nav_camera:
+                fragment = new MainFragment();
+                break;
 
-        if (id == R.id.nav_camera) {
-            fragment = new Menu1();
-        } else if (id == R.id.nav_gallery) {
-            fragment = new ChangeLanguage();
-        } else if (id == R.id.nav_slideshow) {
+            case R.id.nav_gallery:
+                fragment = new ChangeLanguage();
+                break;
+            case R.id.nav_slideshow:
+                break;
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+            default:
+                fragment = new MainFragment();
+                break;
         }
 
         if (fragment != null) {
@@ -125,5 +125,18 @@ public class Dashboard extends AppCompatActivity
         return true;
     }
 
+    public void openExitDialog() {
+        CustomConfirmDialog.getInstance().showConfirmDialog(mContext, getString(R.string.exit_app), getString(R.string.ok), getString(R.string.cancel), new CustomConfirmDialog.OnClickInterFace() {
+            @Override
+            public void onOkay() {
+                finishAffinity();
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+
+            @Override
+            public void onCancel() {
+            }
+        });
+    }
 
 }
